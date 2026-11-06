@@ -1,90 +1,97 @@
 import { useState } from "react";
-import type { Supply } from "../types";
-import StatusBadge from "./StatusBadge";
+import type { Supply, SupplyStatus } from "../types";
+import { Icon } from "./Navbar";
 
 interface SupplyListProps {
   items: Supply[];
 }
 
-const filters = ["All", "In Stock", "Low Stock", "Out of Stock"] as const;
-type Filter = (typeof filters)[number];
+const filters: ("All" | SupplyStatus)[] = ["All", "In Stock", "Low Stock", "Out of Stock"];
 
 function SupplyList({ items }: SupplyListProps) {
-  // Interactive features: live search + status filter
-  const [search, setSearch] = useState<string>("");
-  const [filter, setFilter] = useState<Filter>("All");
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<(typeof filters)[number]>("All");
 
   const visibleItems = items.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter === "All" || item.status === filter;
-    return matchesSearch && matchesFilter;
+    const matchesText = `${item.name} ${item.category}`.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = filter === "All" || item.status === filter;
+    return matchesText && matchesStatus;
   });
 
   return (
-    <section id="supplies" className="py-5">
-      <div className="container">
-        <h2 className="mb-4">Available Supplies</h2>
-
-        <div className="row g-2 mb-3">
-          <div className="col-md-6">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search supplies..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="col-md-6">
-            <div className="btn-group w-100 flex-wrap">
-              {filters.map((f) => (
-                <button
-                  key={f}
-                  className={`btn btn-outline-primary ${filter === f ? "active" : ""}`}
-                  onClick={() => setFilter(f)}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
+    <section id="inventory" className="mx-auto mt-4 max-w-[1500px] overflow-hidden rounded-[20px] border border-line bg-surface shadow-card lg:ml-[292px] lg:mr-7">
+      <div className="flex flex-col justify-between gap-3 px-5 py-5 sm:flex-row sm:items-center sm:px-6">
+        <div>
+          <h2 className="text-lg font-semibold text-ink">Available supplies</h2>
+          <p className="mt-0.5 text-xs text-muted">Search the catalog and filter by stock status</p>
         </div>
+        <label className="relative block w-full sm:max-w-[260px]">
+          <span className="sr-only">Search supplies</span>
+          <Icon name="search" className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+          <input
+            type="search"
+            placeholder="Search supplies..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            className="w-full rounded-lg border border-line bg-surface py-2.5 pl-9 pr-3 text-xs text-ink outline-none placeholder:text-muted focus:border-forest focus:ring-2 focus:ring-forest/10"
+          />
+        </label>
+      </div>
 
-        <div className="table-responsive">
-          <table className="table table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Category</th>
-                <th className="text-end">Quantity</th>
-                <th>Status</th>
+      <div className="flex gap-2 overflow-x-auto px-5 pb-3 sm:px-6">
+        {filters.map((status) => (
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${
+              filter === status ? "bg-forest text-white" : "bg-canvas text-muted hover:bg-sage-light hover:text-forest"
+            }`}
+          >
+            {status}
+          </button>
+        ))}
+      </div>
+
+      <div className="overflow-x-auto px-5 pb-4 sm:px-6">
+        <table className="w-full min-w-[560px] border-collapse text-left">
+          <thead>
+            <tr className="bg-table text-[10px] font-semibold uppercase tracking-wide text-muted">
+              <th className="px-3 py-3">Item</th>
+              <th className="px-3 py-3">Category</th>
+              <th className="px-3 py-3 text-right">Quantity</th>
+              <th className="px-3 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visibleItems.length ? visibleItems.map((item) => (
+              <tr className="border-b border-line last:border-0" key={item.id}>
+                <td className="px-3 py-3 text-xs font-medium text-ink">{item.name}</td>
+                <td className="px-3 py-3 text-xs text-muted">{item.category}</td>
+                <td className="px-3 py-3 text-right text-xs font-medium text-ink">{item.qty} {item.unit}</td>
+                <td className="px-3 py-3"><StatusBadge status={item.status} /></td>
               </tr>
-            </thead>
-            <tbody>
-              {visibleItems.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="text-center text-body-secondary py-4">
-                    No supplies match your search. Try a different name or filter.
-                  </td>
-                </tr>
-              ) : (
-                visibleItems.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.category}</td>
-                    <td className="text-end">{item.qty}</td>
-                    <td>
-                      <StatusBadge status={item.status} />
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+            )) : (
+              <tr>
+                <td colSpan={4} className="px-3 py-8 text-center text-xs text-muted">
+                  No supplies match your search. Try another name or filter.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </section>
   );
+}
+
+function StatusBadge({ status }: { status: SupplyStatus }) {
+  const classes = {
+    "In Stock": "bg-sage-light text-forest",
+    "Low Stock": "bg-amber-light text-amber-deep",
+    "Out of Stock": "bg-danger-light text-danger",
+  }[status];
+
+  return <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${classes}`}>{status}</span>;
 }
 
 export default SupplyList;

@@ -1,29 +1,32 @@
-import type { Supply, Stat } from "../types";
+import type { Supply, StockMovementEntry, Transaction } from "../types";
 
 export const supplies: Supply[] = [
-  { id: 1, name: "Bond Paper (Short)", category: "Paper", qty: 120, status: "In Stock" },
-  { id: 2, name: "Bond Paper (Long)", category: "Paper", qty: 85, status: "In Stock" },
-  { id: 3, name: "Ballpen (Black)", category: "Writing", qty: 8, status: "Low Stock" },
-  { id: 4, name: "Printer Ink (Black)", category: "Printing", qty: 5, status: "Low Stock" },
-  { id: 5, name: "Folder (Long)", category: "Filing", qty: 60, status: "In Stock" },
-  { id: 6, name: "Stapler Wire", category: "Fasteners", qty: 0, status: "Out of Stock" },
-  { id: 7, name: "Alcohol (500ml)", category: "Cleaning", qty: 0, status: "Out of Stock" },
-  { id: 8, name: "Marker (Permanent)", category: "Writing", qty: 30, status: "In Stock" },
+  { id: 1, name: "Bond paper, A4", category: "Paper", qty: 42, unit: "reams", status: "In Stock" },
+  { id: 2, name: "Toner cartridge", category: "Printing", qty: 0, unit: "cartridges", status: "Out of Stock" },
+  { id: 3, name: "Ethyl alcohol, 500 mL", category: "Cleaning", qty: 36, unit: "bottles", status: "In Stock", expiresInDays: 26 },
+  { id: 4, name: "Whiteboard marker", category: "Writing", qty: 0, unit: "pieces", status: "Out of Stock" },
+  { id: 5, name: "Ballpoint pen, black", category: "Writing", qty: 120, unit: "pieces", status: "In Stock" },
+  { id: 6, name: "Document folder", category: "Filing", qty: 48, unit: "pieces", status: "In Stock" },
 ];
 
-export const stats: Stat[] = [
-  { id: 1, title: "Total Items", value: supplies.length, variant: "primary" },
+export const transactions: Transaction[] = [
   {
-    id: 2,
-    title: "Low Stock",
-    value: supplies.filter((s) => s.status === "Low Stock").length,
-    variant: "warning",
+    reference: "ISS-2026-001",
+    date: "Nov 6 · 10:30",
+    item: "Toner cartridge",
+    movement: "Issued -1",
+    kind: "issued",
+    office: "Registrar's Office",
+    staff: "Renjene D.S. Rivera",
   },
-  {
-    id: 3,
-    title: "Out of Stock",
-    value: supplies.filter((s) => s.status === "Out of Stock").length,
-    variant: "danger",
-  },
-  { id: 4, title: "Pending Requests", value: 4, variant: "success" },
+];
+
+export const weeklyMovement: StockMovementEntry[] = [
+  { day: "Oct 31", received: 0, issued: 0 },
+  { day: "Nov 1", received: 0, issued: 0 },
+  { day: "Nov 2", received: 0, issued: 0 },
+  { day: "Nov 3", received: 0, issued: 0 },
+  { day: "Nov 4", received: 0, issued: 0 },
+  { day: "Nov 5", received: 0, issued: 0 },
+  { day: "Nov 6", received: 0, issued: 1 },
 ];

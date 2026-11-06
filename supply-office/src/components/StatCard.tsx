@@ -1,16 +1,16 @@
-import type { Stat } from "../types";
+interface StatCardProps {
+  title: string;
+  value: number;
+  foot: string;
+}
 
-type StatCardProps = Pick<Stat, "title" | "value" | "variant">;
-
-// Reusable component: rendered once per item in the stats array
-function StatCard({ title, value, variant }: StatCardProps) {
+function StatCard({ title, value, foot }: StatCardProps) {
   return (
-    <div className={`card h-100 border-0 border-start border-4 border-${variant} shadow-sm`}>
-      <div className="card-body">
-        <div className="text-body-secondary small">{title}</div>
-        <div className="fs-1 fw-bold">{value}</div>
-      </div>
-    </div>
+    <article className="rounded-[20px] border border-line bg-surface px-5 py-5 shadow-card sm:px-5 sm:py-5">
+      <h2 className="text-sm font-medium text-muted">{title}</h2>
+      <p className="mt-2 text-[32px] font-bold leading-none tracking-tight text-ink">{value}</p>
+      <p className="mt-2 text-xs text-muted">{foot}</p>
+    </article>
   );
 }
 

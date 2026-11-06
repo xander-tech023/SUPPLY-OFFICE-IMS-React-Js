@@ -1,4 +1,64 @@
-.hero {
-  background: var(--bs-tertiary-bg);
-  border-bottom: 1px solid var(--bs-border-color);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --table: #f7f9fa;
+  --ink: #172538;
+  --muted: #64748b;
+  --line: #e4e9ef;
+  --sage-light: #eaf3ed;
+  --amber: #ffb91e;
+  --amber-light: #fff9e8;
+  --danger: #ed626c;
+  --danger-light: #fff0f1;
+  --chart-issued: #8be98d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+.dark {
+  --canvas: #0e1915;
+  --surface: #172721;
+  --table: #1d3028;
+  --ink: #e7eee9;
+  --muted: #a3b2a9;
+  --line: #30443a;
+  --sage-light: #263b31;
+  --amber-light: #483b23;
+  --danger-light: #472b2d;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: #dcebe1;
+  color: #0e4033;
 }

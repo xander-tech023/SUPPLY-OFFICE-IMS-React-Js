@@ -1,33 +1,21 @@
 # Supply Office IMS – ReactJS Homepage
 
+This project uses only one app folder: `supply-office/`.
+
 ## Run
-```
+```bash
+cd supply-office
 npm install
 npm run dev
 ```
-Build: `npm run build`
+Build: `cd supply-office && npm run build`
 
 ## Structure
-- `src/App.jsx` – page composition, theme state
-- `src/components/` – Navbar, Hero, StatCard, FeatureCard, InventorySection, InventoryRow, ItemModal, Faq, Footer
-- `src/data/content.js` – sample data passed down as props
-- `src/styles/index.css` – custom styles on top of Bootstrap
+- `supply-office/src/App.tsx` – page composition, theme state
+- `supply-office/src/components/` – Navbar, Hero, StatCard, SupplyList, LoginModal, Footer
+- `supply-office/src/data/supplies.ts` – sample inventory and stat data
+- `supply-office/src/App.css` – shared custom styles
 
-## Components & Props
-| Component | Props |
-|---|---|
-| Navbar | brand, links, theme, onToggleTheme |
-| Hero | title, subtitle |
-| StatCard (reusable) | label, value, icon, tone |
-| FeatureCard (reusable) | icon, title, text |
-| InventorySection | items |
-| InventoryRow (reusable) | item, onView |
-| ItemModal | item, onClose |
-| Faq | items |
-
-## Interactive Features
-1. Navigation toggle (mobile menu) – `useState`
-2. Theme toggle (light/dark) – `useState` + `useEffect`
-3. Search + category filter – controlled inputs
-4. Item details modal – `useState`
-5. FAQ accordion – `useState`
+## Notes
+- Only the `supply-office` folder is used for the application.
+- Other duplicate project folders were removed to keep one active working folder.

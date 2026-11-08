@@ -182,9 +182,9 @@ function Navbar({
               <Icon name="menu" />
             </button>
             <div>
-              <p className="text-sm text-muted">Supply Office / Dashboard</p>
+              <p className="text-sm text-muted">Supply Office / Homepage</p>
               <p className="mt-1 text-[27px] font-bold leading-tight tracking-[-0.03em] text-ink sm:text-[30px]">
-                Dashboard
+                Homepage
               </p>
               <p className="mt-1 text-sm text-muted">
                 Monitor campus stock, attend to requests, and keep every movement accountable.

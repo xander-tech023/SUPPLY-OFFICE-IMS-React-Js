@@ -26,6 +26,10 @@ function Hero({ stats, supplies, movement, transactions, onViewInventory, onView
 
   return (
     <main id="dashboard" className="mx-auto max-w-[1500px] px-4 pb-8 pt-5 sm:px-7 lg:ml-[292px] lg:px-7">
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold text-ink">Dashboard</h2>
+        <p className="mt-0.5 text-xs text-muted">Your supply office overview</p>
+      </div>
       <section aria-label="Inventory summary" className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {stats.map((stat) => <StatCard key={stat.title} {...stat} />)}
       </section>

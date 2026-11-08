@@ -1,6 +1,6 @@
 # CBSUA Supply Office Homepage
 
-The homepage opens on the **Dashboard** and keeps the CBSUA green dashboard palette and sample inventory. It is built with React, TypeScript, Vite, and Tailwind CSS.
+This project is a **single-page homepage**. It opens on the **Dashboard** section and keeps the CBSUA green palette and sample inventory. Inventory search, requests, and receiving actions remain within the homepage; there are no separate website pages. It is built with React, TypeScript, Vite, and Tailwind CSS.
 
 ## Project structure
 

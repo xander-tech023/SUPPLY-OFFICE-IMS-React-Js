@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import SupplyList from "./components/SupplyList";
+import SupplierDirectory from "./components/SupplierDirectory";
 import LoginModal from "./components/LoginModal";
 import Footer from "./components/Footer";
 import { supplies, transactions, weeklyMovement } from "./data/supplies";
@@ -49,14 +50,15 @@ function App() {
 
     if (section) {
       document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
-      return;
     }
-
-    showNotice(`${label} will be available in a future update.`);
   }
 
   function handleSupplyAction(mode: "request" | "receive", itemName: string, quantity: number) {
     const item = catalog.find((entry) => entry.name === itemName);
+    if (!item) {
+      showNotice("Choose a supply item before continuing.");
+      return;
+    }
 
     if (mode === "receive") {
       setCatalog((current) =>
@@ -98,14 +100,55 @@ function App() {
 
   function handleApproveRequest(id: number) {
     const request = requests.find((entry) => entry.id === id);
-    setRequests((current) => current.filter((entry) => entry.id !== id));
-    if (request) {
-      showNotice(`Request for ${request.item} approved.`);
+    const item = catalog.find((entry) => entry.name === request?.item);
+    if (!request || !item) {
+      showNotice("This request could not be matched to an inventory item.");
+      return;
     }
+
+    if (item.qty < request.quantity) {
+      showNotice(`Not enough ${item.name} in stock to approve this request.`);
+      return;
+    }
+
+    const remaining = item.qty - request.quantity;
+    setCatalog((current) =>
+      current.map((entry) =>
+        entry.id === item.id
+          ? { ...entry, qty: remaining, status: remaining === 0 ? "Out of Stock" : "In Stock" }
+          : entry,
+      ),
+    );
+    setRequests((current) => current.filter((entry) => entry.id !== id));
+    const issuedAt = new Date();
+    const time = new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit" }).format(issuedAt);
+    setHistory((current) => [
+      {
+        reference: `ISS-${issuedAt.getFullYear()}-${String(Date.now()).slice(-3)}`,
+        date: `${issuedAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })} · ${time}`,
+        item: item.name,
+        movement: `Issued -${request.quantity}`,
+        kind: "issued",
+        office: request.office,
+        staff: "Renjene D.S. Rivera",
+      },
+      ...current,
+    ]);
+    setMovement((current) =>
+      current.map((entry, index) =>
+        index === current.length - 1 ? { ...entry, issued: entry.issued + request.quantity } : entry,
+      ),
+    );
+    showNotice(`Request for ${request.item} approved and issued.`);
   }
 
   function openDashboardSection(section: string) {
-    setActiveSection(section === "inventory" ? "Inventory" : "Dashboard");
+    const sectionNames: Record<string, string> = {
+      inventory: "Inventory",
+      suppliers: "Suppliers",
+      transactions: "Transactions",
+    };
+    setActiveSection(sectionNames[section] ?? "Dashboard");
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -131,6 +174,7 @@ function App() {
         onViewHistory={() => openDashboardSection("transactions")}
       />
       <SupplyList items={catalog} />
+      <SupplierDirectory />
       <Footer pendingCount={pendingCount} onReviewRequests={() => setDialog("review")} />
 
       {notice && (

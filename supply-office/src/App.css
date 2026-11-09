@@ -4,8 +4,10 @@
 
 :root {
   font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
   color: var(--ink);
   background: var(--canvas);
+  line-height: 1.5;
   --canvas: #f8fafc;
   --surface: #ffffff;
   --table: #f7f9fa;
@@ -46,6 +48,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  font-size: 1rem;
 }
 
 button,

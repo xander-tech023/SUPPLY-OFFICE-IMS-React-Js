@@ -6,10 +6,10 @@ interface StatCardProps {
 
 function StatCard({ title, value, foot }: StatCardProps) {
   return (
-    <article className="rounded-[20px] border border-line bg-surface px-5 py-5 shadow-card sm:px-5 sm:py-5">
-      <h2 className="text-sm font-medium text-muted">{title}</h2>
-      <p className="mt-2 text-[32px] font-bold leading-none tracking-tight text-ink">{value}</p>
-      <p className="mt-2 text-xs text-muted">{foot}</p>
+    <article className="rounded-2xl border border-line bg-surface p-5 shadow-card transition-shadow duration-200 hover:shadow-md sm:p-6">
+      <h2 className="text-sm font-medium leading-5 text-muted">{title}</h2>
+      <p className="mt-3 text-3xl font-bold leading-none tracking-tight text-ink sm:text-4xl">{value}</p>
+      <p className="mt-3 text-sm leading-5 text-muted">{foot}</p>
     </article>
   );
 }

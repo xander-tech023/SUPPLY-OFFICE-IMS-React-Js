@@ -8,13 +8,10 @@ export type IconName =
   | "arrow-up"
   | "arrow-down"
   | "building"
-  | "settings"
-  | "logout"
   | "moon"
   | "sun"
   | "search"
   | "calendar"
-  | "warning"
   | "check"
   | "close"
   | "menu";
@@ -26,13 +23,10 @@ const icons: Record<IconName, string> = {
   "arrow-up": "M12 19V5m-6 6 6-6 6 6M4 20h16",
   "arrow-down": "M12 5v14m6-6-6 6-6-6M4 4h16",
   building: "M4 3h16v18H4zM9 21v-4h6v4M8 7h2m4 0h2M8 11h2m4 0h2",
-  settings: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-6v3m0 14v3M4.93 4.93l2.12 2.12m9.9 9.9 2.12 2.12M2 12h3m14 0h3M4.93 19.07l2.12-2.12m9.9-9.9 2.12-2.12",
-  logout: "M10 17l5-5-5-5m5 5H3m9-9h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6",
   moon: "M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5Z",
   sun: "M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
   search: "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 5 5",
   calendar: "M3 5h18v16H3zM16 3v4M8 3v4M3 11h18",
-  warning: "m10.3 3.9-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3.1l-8-14a2 2 0 0 0-3.4 0ZM12 9v4m0 4h.01",
   check: "m5 12 4 4L19 6",
   close: "m18 6-12 12M6 6l12 12",
   menu: "M4 6h16M4 12h16M4 18h16",
@@ -71,9 +65,10 @@ const links: { label: string; icon: IconName; action?: DialogMode; section?: str
   { label: "Dashboard", icon: "grid", section: "dashboard" },
   { label: "Inventory", icon: "box", section: "inventory" },
   { label: "Stock Requests", icon: "clipboard", action: "review" },
-  { label: "Issue Supplies", icon: "check", action: "request" },
+  { label: "New Request", icon: "check", action: "request" },
   { label: "Receive Stock", icon: "arrow-down", action: "receive" },
-  { label: "Suppliers", icon: "building" },
+  { label: "Transactions", icon: "calendar", section: "transactions" },
+  { label: "Suppliers", icon: "building", section: "suppliers" },
 ];
 
 function Navbar({
@@ -143,31 +138,15 @@ function Navbar({
               <Icon name={link.icon} className="h-[17px] w-[17px] shrink-0" />
               <span>{link.label}</span>
               {link.action === "review" && (
-                <span className="ml-auto rounded-full bg-white/15 px-2 py-0.5 text-[10px]">{pendingCount}</span>
+                <span className="ml-auto rounded-full bg-white/15 px-2 py-0.5 text-xs">{pendingCount}</span>
               )}
             </button>
           ))}
         </nav>
 
-        <div className="space-y-0.5 border-t border-white/10 px-3 py-3">
-          <button
-            onClick={() => onNavigate("Settings")}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left text-sm text-white/75 hover:bg-white/10 hover:text-white"
-          >
-            <Icon name="settings" className="h-[17px] w-[17px]" /> Settings
-          </button>
-          <button
-            onClick={() => onNavigate("Help")}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left text-sm text-white/75 hover:bg-white/10 hover:text-white"
-          >
-            <Icon name="warning" className="h-[17px] w-[17px]" /> Help?
-          </button>
-          <button
-            onClick={() => onNavigate("Sign out")}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left text-sm text-white/75 hover:bg-white/10 hover:text-white"
-          >
-            <Icon name="logout" className="h-[17px] w-[17px]" /> Sign out
-          </button>
+        <div className="border-t border-white/10 px-5 py-4">
+          <p className="text-sm font-semibold text-white">CBSUA Sipocot Campus</p>
+          <p className="mt-1 text-sm text-white/60">Supply Office</p>
         </div>
       </aside>
 
@@ -182,9 +161,9 @@ function Navbar({
               <Icon name="menu" />
             </button>
             <div>
-              <p className="text-sm text-muted">Supply Office / Homepage</p>
-              <p className="mt-1 text-[27px] font-bold leading-tight tracking-[-0.03em] text-ink sm:text-[30px]">
-                Homepage
+              <p className="text-sm text-muted">CBSUA Sipocot Campus / Supply Office</p>
+              <p className="mt-1 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
+                {activeSection}
               </p>
               <p className="mt-1 text-sm text-muted">
                 Monitor campus stock, attend to requests, and keep every movement accountable.
@@ -215,7 +194,7 @@ function Navbar({
               onClick={onRequest}
               className="rounded-xl border border-line bg-surface px-4 py-2.5 text-sm font-semibold text-ink shadow-card hover:border-forest/40"
             >
-              <span aria-hidden="true">+</span> New request
+              <span aria-hidden="true">+</span>               Request supplies
             </button>
             <button
               onClick={onReceive}

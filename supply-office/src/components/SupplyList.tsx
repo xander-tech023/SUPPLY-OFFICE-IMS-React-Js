@@ -22,8 +22,8 @@ function SupplyList({ items }: SupplyListProps) {
     <section id="inventory" className="mx-auto mt-4 max-w-[1500px] overflow-hidden rounded-[20px] border border-line bg-surface shadow-card lg:ml-[292px] lg:mr-7">
       <div className="flex flex-col justify-between gap-3 px-5 py-5 sm:flex-row sm:items-center sm:px-6">
         <div>
-          <h2 className="text-lg font-semibold text-ink">Available supplies</h2>
-          <p className="mt-0.5 text-xs text-muted">Search the catalog and filter by stock status</p>
+          <h2 className="text-xl font-semibold text-ink">Available supplies</h2>
+          <p className="mt-1 text-sm text-muted">Search the catalog and filter by stock status.</p>
         </div>
         <label className="relative block w-full sm:max-w-[260px]">
           <span className="sr-only">Search supplies</span>
@@ -33,7 +33,7 @@ function SupplyList({ items }: SupplyListProps) {
             placeholder="Search supplies..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="w-full rounded-lg border border-line bg-surface py-2.5 pl-9 pr-3 text-xs text-ink outline-none placeholder:text-muted focus:border-forest focus:ring-2 focus:ring-forest/10"
+            className="w-full rounded-lg border border-line bg-surface py-2.5 pl-9 pr-3 text-sm text-ink outline-none placeholder:text-muted focus:border-forest focus:ring-2 focus:ring-forest/10"
           />
         </label>
       </div>
@@ -43,7 +43,7 @@ function SupplyList({ items }: SupplyListProps) {
           <button
             key={status}
             onClick={() => setFilter(status)}
-            className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${
+            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
               filter === status ? "bg-forest text-white" : "bg-canvas text-muted hover:bg-sage-light hover:text-forest"
             }`}
           >
@@ -55,7 +55,7 @@ function SupplyList({ items }: SupplyListProps) {
       <div className="overflow-x-auto px-5 pb-4 sm:px-6">
         <table className="w-full min-w-[560px] border-collapse text-left">
           <thead>
-            <tr className="bg-table text-[10px] font-semibold uppercase tracking-wide text-muted">
+            <tr className="bg-table text-xs font-semibold uppercase tracking-wide text-muted">
               <th className="px-3 py-3">Item</th>
               <th className="px-3 py-3">Category</th>
               <th className="px-3 py-3 text-right">Quantity</th>
@@ -65,14 +65,14 @@ function SupplyList({ items }: SupplyListProps) {
           <tbody>
             {visibleItems.length ? visibleItems.map((item) => (
               <tr className="border-b border-line last:border-0" key={item.id}>
-                <td className="px-3 py-3 text-xs font-medium text-ink">{item.name}</td>
-                <td className="px-3 py-3 text-xs text-muted">{item.category}</td>
-                <td className="px-3 py-3 text-right text-xs font-medium text-ink">{item.qty} {item.unit}</td>
+                <td className="px-3 py-3 text-sm font-medium text-ink">{item.name}</td>
+                <td className="px-3 py-3 text-sm text-muted">{item.category}</td>
+                <td className="px-3 py-3 text-right text-sm font-medium text-ink">{item.qty} {item.unit}</td>
                 <td className="px-3 py-3"><StatusBadge status={item.status} /></td>
               </tr>
             )) : (
               <tr>
-                <td colSpan={4} className="px-3 py-8 text-center text-xs text-muted">
+                <td colSpan={4} className="px-3 py-8 text-center text-sm text-muted">
                   No supplies match your search. Try another name or filter.
                 </td>
               </tr>
@@ -91,7 +91,7 @@ function StatusBadge({ status }: { status: SupplyStatus }) {
     "Out of Stock": "bg-danger-light text-danger",
   }[status];
 
-  return <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${classes}`}>{status}</span>;
+  return <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${classes}`}>{status}</span>;
 }
 
 export default SupplyList;
